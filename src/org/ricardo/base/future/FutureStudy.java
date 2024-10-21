@@ -1,38 +1,24 @@
 package org.ricardo.base.future;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.FutureTask;
 
 public class FutureStudy {
 
-    public static void main(String[] args) {
-        Future<Integer> future = new Future<Integer>() {
-            @Override
-            public boolean cancel(boolean mayInterruptIfRunning) {
-                return false;
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        Runnable runnable = () -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-
-            @Override
-            public boolean isCancelled() {
-                return false;
-            }
-
-            @Override
-            public boolean isDone() {
-                return false;
-            }
-
-            @Override
-            public Integer get() throws InterruptedException, ExecutionException {
-                return 0;
-            }
-
-            @Override
-            public Integer get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-                return 0;
-            }
+            System.out.println("Hello World");
         };
+
+        FutureTask<String> futureTask = new FutureTask<>(runnable, "执行完成");
+
+        Thread thread = new Thread(futureTask);
+        thread.start();
+        System.out.println(futureTask.get());
     }
 }
