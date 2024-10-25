@@ -1,5 +1,8 @@
 package org.ricardo.base.synchronizeds;
 
+/**
+ * 对象锁
+ */
 public class SynchronizedObject implements Runnable {
 
     public static SynchronizedObject instance = new SynchronizedObject();
